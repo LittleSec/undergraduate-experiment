@@ -1,0 +1,241 @@
+语法
+
+    0 $accept: prog $end
+
+    1 prog: prog exprp
+    2     | exprp
+
+    3 exprp: expr ENTER
+
+    4 expr: expr OR expr1
+    5     | expr1
+
+    6 expr1: expr1 AND expr2
+    7      | expr2
+
+    8 expr2: NOT expr2
+    9      | LPAREN expr RPAREN
+   10      | T
+   11      | F
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+T (258) 10
+F (259) 11
+LPAREN (260) 9
+RPAREN (261) 9
+ENTER (262) 3
+OR (263) 4
+AND (264) 6
+NOT (265) 8
+
+
+Nonterminals, with rules where they appear
+
+$accept (11)
+    on left: 0
+prog (12)
+    on left: 1 2, on right: 0 1
+exprp (13)
+    on left: 3, on right: 1 2
+expr (14)
+    on left: 4 5, on right: 3 4 9
+expr1 (15)
+    on left: 6 7, on right: 4 5 6
+expr2 (16)
+    on left: 8 9 10 11, on right: 6 7 8
+
+
+State 0
+
+    0 $accept: . prog $end
+
+    T       shift, and go to state 1
+    F       shift, and go to state 2
+    LPAREN  shift, and go to state 3
+    NOT     shift, and go to state 4
+
+    prog   转到状态 5
+    exprp  转到状态 6
+    expr   转到状态 7
+    expr1  转到状态 8
+    expr2  转到状态 9
+
+
+State 1
+
+   10 expr2: T .
+
+    $default  reduce using rule 10 (expr2)
+
+
+State 2
+
+   11 expr2: F .
+
+    $default  reduce using rule 11 (expr2)
+
+
+State 3
+
+    9 expr2: LPAREN . expr RPAREN
+
+    T       shift, and go to state 1
+    F       shift, and go to state 2
+    LPAREN  shift, and go to state 3
+    NOT     shift, and go to state 4
+
+    expr   转到状态 10
+    expr1  转到状态 8
+    expr2  转到状态 9
+
+
+State 4
+
+    8 expr2: NOT . expr2
+
+    T       shift, and go to state 1
+    F       shift, and go to state 2
+    LPAREN  shift, and go to state 3
+    NOT     shift, and go to state 4
+
+    expr2  转到状态 11
+
+
+State 5
+
+    0 $accept: prog . $end
+    1 prog: prog . exprp
+
+    $end    shift, and go to state 12
+    T       shift, and go to state 1
+    F       shift, and go to state 2
+    LPAREN  shift, and go to state 3
+    NOT     shift, and go to state 4
+
+    exprp  转到状态 13
+    expr   转到状态 7
+    expr1  转到状态 8
+    expr2  转到状态 9
+
+
+State 6
+
+    2 prog: exprp .
+
+    $default  reduce using rule 2 (prog)
+
+
+State 7
+
+    3 exprp: expr . ENTER
+    4 expr: expr . OR expr1
+
+    ENTER  shift, and go to state 14
+    OR     shift, and go to state 15
+
+
+State 8
+
+    5 expr: expr1 .
+    6 expr1: expr1 . AND expr2
+
+    AND  shift, and go to state 16
+
+    $default  reduce using rule 5 (expr)
+
+
+State 9
+
+    7 expr1: expr2 .
+
+    $default  reduce using rule 7 (expr1)
+
+
+State 10
+
+    4 expr: expr . OR expr1
+    9 expr2: LPAREN expr . RPAREN
+
+    RPAREN  shift, and go to state 17
+    OR      shift, and go to state 15
+
+
+State 11
+
+    8 expr2: NOT expr2 .
+
+    $default  reduce using rule 8 (expr2)
+
+
+State 12
+
+    0 $accept: prog $end .
+
+    $default  接受
+
+
+State 13
+
+    1 prog: prog exprp .
+
+    $default  reduce using rule 1 (prog)
+
+
+State 14
+
+    3 exprp: expr ENTER .
+
+    $default  reduce using rule 3 (exprp)
+
+
+State 15
+
+    4 expr: expr OR . expr1
+
+    T       shift, and go to state 1
+    F       shift, and go to state 2
+    LPAREN  shift, and go to state 3
+    NOT     shift, and go to state 4
+
+    expr1  转到状态 18
+    expr2  转到状态 9
+
+
+State 16
+
+    6 expr1: expr1 AND . expr2
+
+    T       shift, and go to state 1
+    F       shift, and go to state 2
+    LPAREN  shift, and go to state 3
+    NOT     shift, and go to state 4
+
+    expr2  转到状态 19
+
+
+State 17
+
+    9 expr2: LPAREN expr RPAREN .
+
+    $default  reduce using rule 9 (expr2)
+
+
+State 18
+
+    4 expr: expr OR expr1 .
+    6 expr1: expr1 . AND expr2
+
+    AND  shift, and go to state 16
+
+    $default  reduce using rule 4 (expr)
+
+
+State 19
+
+    6 expr1: expr1 AND expr2 .
+
+    $default  reduce using rule 6 (expr1)

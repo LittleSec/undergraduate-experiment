@@ -1,0 +1,938 @@
+语法
+
+    0 $accept: program $end
+
+    1 program: PROGRAM ID SEMICOLON vardec BEGINN stmtslist END PERIOD
+
+    2 vardec: VAR declist
+
+    3 declist: idlist COLON INTEGER SEMICOLON declist_other_part
+    4        | idlist COLON REAL SEMICOLON declist_other_part
+
+    5 declist_other_part: declist
+    6                   | %empty
+
+    7 idlist: ID
+    8       | ID COMMA idlist
+
+    9 stmtslist: stmts
+   10          | stmts SEMICOLON stmtslist
+
+   11 stmts: asstmts
+   12      | ifstmts
+   13      | whilestmts
+   14      | comstmts
+
+   15 asstmts: ID ASSIGN aritexp
+
+   16 ifstmts: IF relaexp THEN stmts ELSE stmts
+
+   17 whilestmts: WHILE relaexp DO stmts
+
+   18 comstmts: BEGINN stmtslist END
+
+   19 aritexp: term
+   20        | aritexp PLUS term
+   21        | aritexp MINUS term
+
+   22 term: factor
+   23     | term TIMES factor
+   24     | term DIVIDE factor
+
+   25 factor: ID
+   26       | constant
+   27       | LPAREN aritexp RPAREN
+
+   28 relaexp: aritexp LT aritexp
+   29        | aritexp LE aritexp
+   30        | aritexp GT aritexp
+   31        | aritexp GE aritexp
+   32        | aritexp EQ aritexp
+   33        | aritexp NEQ aritexp
+
+   34 constant: INT
+   35         | FLOAT
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+ID (258) 1 7 8 15 25
+INT (259) 34
+FLOAT (260) 35
+INTEGER (261) 3
+REAL (262) 4
+COMMA (263) 8
+COLON (264) 3 4
+SEMICOLON (265) 1 3 4 10
+LPAREN (266) 27
+RPAREN (267) 27
+PERIOD (268) 1
+PROGRAM (269) 1
+BEGINN (270) 1 18
+END (271) 1 18
+VAR (272) 2
+IF (273) 16
+WHILE (274) 17
+DO (275) 17
+THEN (276) 16
+ELSE (277) 16
+ASSIGN (278) 15
+EQ (279) 32
+NEQ (280) 33
+LT (281) 28
+LE (282) 29
+GT (283) 30
+GE (284) 31
+PLUS (285) 20
+MINUS (286) 21
+TIMES (287) 23
+DIVIDE (288) 24
+
+
+Nonterminals, with rules where they appear
+
+$accept (34)
+    on left: 0
+program (35)
+    on left: 1, on right: 0
+vardec (36)
+    on left: 2, on right: 1
+declist (37)
+    on left: 3 4, on right: 2 5
+declist_other_part (38)
+    on left: 5 6, on right: 3 4
+idlist (39)
+    on left: 7 8, on right: 3 4 8
+stmtslist (40)
+    on left: 9 10, on right: 1 10 18
+stmts (41)
+    on left: 11 12 13 14, on right: 9 10 16 17
+asstmts (42)
+    on left: 15, on right: 11
+ifstmts (43)
+    on left: 16, on right: 12
+whilestmts (44)
+    on left: 17, on right: 13
+comstmts (45)
+    on left: 18, on right: 14
+aritexp (46)
+    on left: 19 20 21, on right: 15 20 21 27 28 29 30 31 32 33
+term (47)
+    on left: 22 23 24, on right: 19 20 21 23 24
+factor (48)
+    on left: 25 26 27, on right: 22 23 24
+relaexp (49)
+    on left: 28 29 30 31 32 33, on right: 16 17
+constant (50)
+    on left: 34 35, on right: 26
+
+
+State 0
+
+    0 $accept: . program $end
+
+    PROGRAM  shift, and go to state 1
+
+    program  转到状态 2
+
+
+State 1
+
+    1 program: PROGRAM . ID SEMICOLON vardec BEGINN stmtslist END PERIOD
+
+    ID  shift, and go to state 3
+
+
+State 2
+
+    0 $accept: program . $end
+
+    $end  shift, and go to state 4
+
+
+State 3
+
+    1 program: PROGRAM ID . SEMICOLON vardec BEGINN stmtslist END PERIOD
+
+    SEMICOLON  shift, and go to state 5
+
+
+State 4
+
+    0 $accept: program $end .
+
+    $default  接受
+
+
+State 5
+
+    1 program: PROGRAM ID SEMICOLON . vardec BEGINN stmtslist END PERIOD
+
+    VAR  shift, and go to state 6
+
+    vardec  转到状态 7
+
+
+State 6
+
+    2 vardec: VAR . declist
+
+    ID  shift, and go to state 8
+
+    declist  转到状态 9
+    idlist   转到状态 10
+
+
+State 7
+
+    1 program: PROGRAM ID SEMICOLON vardec . BEGINN stmtslist END PERIOD
+
+    BEGINN  shift, and go to state 11
+
+
+State 8
+
+    7 idlist: ID .
+    8       | ID . COMMA idlist
+
+    COMMA  shift, and go to state 12
+
+    $default  reduce using rule 7 (idlist)
+
+
+State 9
+
+    2 vardec: VAR declist .
+
+    $default  reduce using rule 2 (vardec)
+
+
+State 10
+
+    3 declist: idlist . COLON INTEGER SEMICOLON declist_other_part
+    4        | idlist . COLON REAL SEMICOLON declist_other_part
+
+    COLON  shift, and go to state 13
+
+
+State 11
+
+    1 program: PROGRAM ID SEMICOLON vardec BEGINN . stmtslist END PERIOD
+
+    ID      shift, and go to state 14
+    BEGINN  shift, and go to state 15
+    IF      shift, and go to state 16
+    WHILE   shift, and go to state 17
+
+    stmtslist   转到状态 18
+    stmts       转到状态 19
+    asstmts     转到状态 20
+    ifstmts     转到状态 21
+    whilestmts  转到状态 22
+    comstmts    转到状态 23
+
+
+State 12
+
+    8 idlist: ID COMMA . idlist
+
+    ID  shift, and go to state 8
+
+    idlist  转到状态 24
+
+
+State 13
+
+    3 declist: idlist COLON . INTEGER SEMICOLON declist_other_part
+    4        | idlist COLON . REAL SEMICOLON declist_other_part
+
+    INTEGER  shift, and go to state 25
+    REAL     shift, and go to state 26
+
+
+State 14
+
+   15 asstmts: ID . ASSIGN aritexp
+
+    ASSIGN  shift, and go to state 27
+
+
+State 15
+
+   18 comstmts: BEGINN . stmtslist END
+
+    ID      shift, and go to state 14
+    BEGINN  shift, and go to state 15
+    IF      shift, and go to state 16
+    WHILE   shift, and go to state 17
+
+    stmtslist   转到状态 28
+    stmts       转到状态 19
+    asstmts     转到状态 20
+    ifstmts     转到状态 21
+    whilestmts  转到状态 22
+    comstmts    转到状态 23
+
+
+State 16
+
+   16 ifstmts: IF . relaexp THEN stmts ELSE stmts
+
+    ID      shift, and go to state 29
+    INT     shift, and go to state 30
+    FLOAT   shift, and go to state 31
+    LPAREN  shift, and go to state 32
+
+    aritexp   转到状态 33
+    term      转到状态 34
+    factor    转到状态 35
+    relaexp   转到状态 36
+    constant  转到状态 37
+
+
+State 17
+
+   17 whilestmts: WHILE . relaexp DO stmts
+
+    ID      shift, and go to state 29
+    INT     shift, and go to state 30
+    FLOAT   shift, and go to state 31
+    LPAREN  shift, and go to state 32
+
+    aritexp   转到状态 33
+    term      转到状态 34
+    factor    转到状态 35
+    relaexp   转到状态 38
+    constant  转到状态 37
+
+
+State 18
+
+    1 program: PROGRAM ID SEMICOLON vardec BEGINN stmtslist . END PERIOD
+
+    END  shift, and go to state 39
+
+
+State 19
+
+    9 stmtslist: stmts .
+   10          | stmts . SEMICOLON stmtslist
+
+    SEMICOLON  shift, and go to state 40
+
+    $default  reduce using rule 9 (stmtslist)
+
+
+State 20
+
+   11 stmts: asstmts .
+
+    $default  reduce using rule 11 (stmts)
+
+
+State 21
+
+   12 stmts: ifstmts .
+
+    $default  reduce using rule 12 (stmts)
+
+
+State 22
+
+   13 stmts: whilestmts .
+
+    $default  reduce using rule 13 (stmts)
+
+
+State 23
+
+   14 stmts: comstmts .
+
+    $default  reduce using rule 14 (stmts)
+
+
+State 24
+
+    8 idlist: ID COMMA idlist .
+
+    $default  reduce using rule 8 (idlist)
+
+
+State 25
+
+    3 declist: idlist COLON INTEGER . SEMICOLON declist_other_part
+
+    SEMICOLON  shift, and go to state 41
+
+
+State 26
+
+    4 declist: idlist COLON REAL . SEMICOLON declist_other_part
+
+    SEMICOLON  shift, and go to state 42
+
+
+State 27
+
+   15 asstmts: ID ASSIGN . aritexp
+
+    ID      shift, and go to state 29
+    INT     shift, and go to state 30
+    FLOAT   shift, and go to state 31
+    LPAREN  shift, and go to state 32
+
+    aritexp   转到状态 43
+    term      转到状态 34
+    factor    转到状态 35
+    constant  转到状态 37
+
+
+State 28
+
+   18 comstmts: BEGINN stmtslist . END
+
+    END  shift, and go to state 44
+
+
+State 29
+
+   25 factor: ID .
+
+    $default  reduce using rule 25 (factor)
+
+
+State 30
+
+   34 constant: INT .
+
+    $default  reduce using rule 34 (constant)
+
+
+State 31
+
+   35 constant: FLOAT .
+
+    $default  reduce using rule 35 (constant)
+
+
+State 32
+
+   27 factor: LPAREN . aritexp RPAREN
+
+    ID      shift, and go to state 29
+    INT     shift, and go to state 30
+    FLOAT   shift, and go to state 31
+    LPAREN  shift, and go to state 32
+
+    aritexp   转到状态 45
+    term      转到状态 34
+    factor    转到状态 35
+    constant  转到状态 37
+
+
+State 33
+
+   20 aritexp: aritexp . PLUS term
+   21        | aritexp . MINUS term
+   28 relaexp: aritexp . LT aritexp
+   29        | aritexp . LE aritexp
+   30        | aritexp . GT aritexp
+   31        | aritexp . GE aritexp
+   32        | aritexp . EQ aritexp
+   33        | aritexp . NEQ aritexp
+
+    EQ     shift, and go to state 46
+    NEQ    shift, and go to state 47
+    LT     shift, and go to state 48
+    LE     shift, and go to state 49
+    GT     shift, and go to state 50
+    GE     shift, and go to state 51
+    PLUS   shift, and go to state 52
+    MINUS  shift, and go to state 53
+
+
+State 34
+
+   19 aritexp: term .
+   23 term: term . TIMES factor
+   24     | term . DIVIDE factor
+
+    TIMES   shift, and go to state 54
+    DIVIDE  shift, and go to state 55
+
+    $default  reduce using rule 19 (aritexp)
+
+
+State 35
+
+   22 term: factor .
+
+    $default  reduce using rule 22 (term)
+
+
+State 36
+
+   16 ifstmts: IF relaexp . THEN stmts ELSE stmts
+
+    THEN  shift, and go to state 56
+
+
+State 37
+
+   26 factor: constant .
+
+    $default  reduce using rule 26 (factor)
+
+
+State 38
+
+   17 whilestmts: WHILE relaexp . DO stmts
+
+    DO  shift, and go to state 57
+
+
+State 39
+
+    1 program: PROGRAM ID SEMICOLON vardec BEGINN stmtslist END . PERIOD
+
+    PERIOD  shift, and go to state 58
+
+
+State 40
+
+   10 stmtslist: stmts SEMICOLON . stmtslist
+
+    ID      shift, and go to state 14
+    BEGINN  shift, and go to state 15
+    IF      shift, and go to state 16
+    WHILE   shift, and go to state 17
+
+    stmtslist   转到状态 59
+    stmts       转到状态 19
+    asstmts     转到状态 20
+    ifstmts     转到状态 21
+    whilestmts  转到状态 22
+    comstmts    转到状态 23
+
+
+State 41
+
+    3 declist: idlist COLON INTEGER SEMICOLON . declist_other_part
+
+    ID  shift, and go to state 8
+
+    $default  reduce using rule 6 (declist_other_part)
+
+    declist             转到状态 60
+    declist_other_part  转到状态 61
+    idlist              转到状态 10
+
+
+State 42
+
+    4 declist: idlist COLON REAL SEMICOLON . declist_other_part
+
+    ID  shift, and go to state 8
+
+    $default  reduce using rule 6 (declist_other_part)
+
+    declist             转到状态 60
+    declist_other_part  转到状态 62
+    idlist              转到状态 10
+
+
+State 43
+
+   15 asstmts: ID ASSIGN aritexp .
+   20 aritexp: aritexp . PLUS term
+   21        | aritexp . MINUS term
+
+    PLUS   shift, and go to state 52
+    MINUS  shift, and go to state 53
+
+    $default  reduce using rule 15 (asstmts)
+
+
+State 44
+
+   18 comstmts: BEGINN stmtslist END .
+
+    $default  reduce using rule 18 (comstmts)
+
+
+State 45
+
+   20 aritexp: aritexp . PLUS term
+   21        | aritexp . MINUS term
+   27 factor: LPAREN aritexp . RPAREN
+
+    RPAREN  shift, and go to state 63
+    PLUS    shift, and go to state 52
+    MINUS   shift, and go to state 53
+
+
+State 46
+
+   32 relaexp: aritexp EQ . aritexp
+
+    ID      shift, and go to state 29
+    INT     shift, and go to state 30
+    FLOAT   shift, and go to state 31
+    LPAREN  shift, and go to state 32
+
+    aritexp   转到状态 64
+    term      转到状态 34
+    factor    转到状态 35
+    constant  转到状态 37
+
+
+State 47
+
+   33 relaexp: aritexp NEQ . aritexp
+
+    ID      shift, and go to state 29
+    INT     shift, and go to state 30
+    FLOAT   shift, and go to state 31
+    LPAREN  shift, and go to state 32
+
+    aritexp   转到状态 65
+    term      转到状态 34
+    factor    转到状态 35
+    constant  转到状态 37
+
+
+State 48
+
+   28 relaexp: aritexp LT . aritexp
+
+    ID      shift, and go to state 29
+    INT     shift, and go to state 30
+    FLOAT   shift, and go to state 31
+    LPAREN  shift, and go to state 32
+
+    aritexp   转到状态 66
+    term      转到状态 34
+    factor    转到状态 35
+    constant  转到状态 37
+
+
+State 49
+
+   29 relaexp: aritexp LE . aritexp
+
+    ID      shift, and go to state 29
+    INT     shift, and go to state 30
+    FLOAT   shift, and go to state 31
+    LPAREN  shift, and go to state 32
+
+    aritexp   转到状态 67
+    term      转到状态 34
+    factor    转到状态 35
+    constant  转到状态 37
+
+
+State 50
+
+   30 relaexp: aritexp GT . aritexp
+
+    ID      shift, and go to state 29
+    INT     shift, and go to state 30
+    FLOAT   shift, and go to state 31
+    LPAREN  shift, and go to state 32
+
+    aritexp   转到状态 68
+    term      转到状态 34
+    factor    转到状态 35
+    constant  转到状态 37
+
+
+State 51
+
+   31 relaexp: aritexp GE . aritexp
+
+    ID      shift, and go to state 29
+    INT     shift, and go to state 30
+    FLOAT   shift, and go to state 31
+    LPAREN  shift, and go to state 32
+
+    aritexp   转到状态 69
+    term      转到状态 34
+    factor    转到状态 35
+    constant  转到状态 37
+
+
+State 52
+
+   20 aritexp: aritexp PLUS . term
+
+    ID      shift, and go to state 29
+    INT     shift, and go to state 30
+    FLOAT   shift, and go to state 31
+    LPAREN  shift, and go to state 32
+
+    term      转到状态 70
+    factor    转到状态 35
+    constant  转到状态 37
+
+
+State 53
+
+   21 aritexp: aritexp MINUS . term
+
+    ID      shift, and go to state 29
+    INT     shift, and go to state 30
+    FLOAT   shift, and go to state 31
+    LPAREN  shift, and go to state 32
+
+    term      转到状态 71
+    factor    转到状态 35
+    constant  转到状态 37
+
+
+State 54
+
+   23 term: term TIMES . factor
+
+    ID      shift, and go to state 29
+    INT     shift, and go to state 30
+    FLOAT   shift, and go to state 31
+    LPAREN  shift, and go to state 32
+
+    factor    转到状态 72
+    constant  转到状态 37
+
+
+State 55
+
+   24 term: term DIVIDE . factor
+
+    ID      shift, and go to state 29
+    INT     shift, and go to state 30
+    FLOAT   shift, and go to state 31
+    LPAREN  shift, and go to state 32
+
+    factor    转到状态 73
+    constant  转到状态 37
+
+
+State 56
+
+   16 ifstmts: IF relaexp THEN . stmts ELSE stmts
+
+    ID      shift, and go to state 14
+    BEGINN  shift, and go to state 15
+    IF      shift, and go to state 16
+    WHILE   shift, and go to state 17
+
+    stmts       转到状态 74
+    asstmts     转到状态 20
+    ifstmts     转到状态 21
+    whilestmts  转到状态 22
+    comstmts    转到状态 23
+
+
+State 57
+
+   17 whilestmts: WHILE relaexp DO . stmts
+
+    ID      shift, and go to state 14
+    BEGINN  shift, and go to state 15
+    IF      shift, and go to state 16
+    WHILE   shift, and go to state 17
+
+    stmts       转到状态 75
+    asstmts     转到状态 20
+    ifstmts     转到状态 21
+    whilestmts  转到状态 22
+    comstmts    转到状态 23
+
+
+State 58
+
+    1 program: PROGRAM ID SEMICOLON vardec BEGINN stmtslist END PERIOD .
+
+    $default  reduce using rule 1 (program)
+
+
+State 59
+
+   10 stmtslist: stmts SEMICOLON stmtslist .
+
+    $default  reduce using rule 10 (stmtslist)
+
+
+State 60
+
+    5 declist_other_part: declist .
+
+    $default  reduce using rule 5 (declist_other_part)
+
+
+State 61
+
+    3 declist: idlist COLON INTEGER SEMICOLON declist_other_part .
+
+    $default  reduce using rule 3 (declist)
+
+
+State 62
+
+    4 declist: idlist COLON REAL SEMICOLON declist_other_part .
+
+    $default  reduce using rule 4 (declist)
+
+
+State 63
+
+   27 factor: LPAREN aritexp RPAREN .
+
+    $default  reduce using rule 27 (factor)
+
+
+State 64
+
+   20 aritexp: aritexp . PLUS term
+   21        | aritexp . MINUS term
+   32 relaexp: aritexp EQ aritexp .
+
+    PLUS   shift, and go to state 52
+    MINUS  shift, and go to state 53
+
+    $default  reduce using rule 32 (relaexp)
+
+
+State 65
+
+   20 aritexp: aritexp . PLUS term
+   21        | aritexp . MINUS term
+   33 relaexp: aritexp NEQ aritexp .
+
+    PLUS   shift, and go to state 52
+    MINUS  shift, and go to state 53
+
+    $default  reduce using rule 33 (relaexp)
+
+
+State 66
+
+   20 aritexp: aritexp . PLUS term
+   21        | aritexp . MINUS term
+   28 relaexp: aritexp LT aritexp .
+
+    PLUS   shift, and go to state 52
+    MINUS  shift, and go to state 53
+
+    $default  reduce using rule 28 (relaexp)
+
+
+State 67
+
+   20 aritexp: aritexp . PLUS term
+   21        | aritexp . MINUS term
+   29 relaexp: aritexp LE aritexp .
+
+    PLUS   shift, and go to state 52
+    MINUS  shift, and go to state 53
+
+    $default  reduce using rule 29 (relaexp)
+
+
+State 68
+
+   20 aritexp: aritexp . PLUS term
+   21        | aritexp . MINUS term
+   30 relaexp: aritexp GT aritexp .
+
+    PLUS   shift, and go to state 52
+    MINUS  shift, and go to state 53
+
+    $default  reduce using rule 30 (relaexp)
+
+
+State 69
+
+   20 aritexp: aritexp . PLUS term
+   21        | aritexp . MINUS term
+   31 relaexp: aritexp GE aritexp .
+
+    PLUS   shift, and go to state 52
+    MINUS  shift, and go to state 53
+
+    $default  reduce using rule 31 (relaexp)
+
+
+State 70
+
+   20 aritexp: aritexp PLUS term .
+   23 term: term . TIMES factor
+   24     | term . DIVIDE factor
+
+    TIMES   shift, and go to state 54
+    DIVIDE  shift, and go to state 55
+
+    $default  reduce using rule 20 (aritexp)
+
+
+State 71
+
+   21 aritexp: aritexp MINUS term .
+   23 term: term . TIMES factor
+   24     | term . DIVIDE factor
+
+    TIMES   shift, and go to state 54
+    DIVIDE  shift, and go to state 55
+
+    $default  reduce using rule 21 (aritexp)
+
+
+State 72
+
+   23 term: term TIMES factor .
+
+    $default  reduce using rule 23 (term)
+
+
+State 73
+
+   24 term: term DIVIDE factor .
+
+    $default  reduce using rule 24 (term)
+
+
+State 74
+
+   16 ifstmts: IF relaexp THEN stmts . ELSE stmts
+
+    ELSE  shift, and go to state 76
+
+
+State 75
+
+   17 whilestmts: WHILE relaexp DO stmts .
+
+    $default  reduce using rule 17 (whilestmts)
+
+
+State 76
+
+   16 ifstmts: IF relaexp THEN stmts ELSE . stmts
+
+    ID      shift, and go to state 14
+    BEGINN  shift, and go to state 15
+    IF      shift, and go to state 16
+    WHILE   shift, and go to state 17
+
+    stmts       转到状态 77
+    asstmts     转到状态 20
+    ifstmts     转到状态 21
+    whilestmts  转到状态 22
+    comstmts    转到状态 23
+
+
+State 77
+
+   16 ifstmts: IF relaexp THEN stmts ELSE stmts .
+
+    $default  reduce using rule 16 (ifstmts)

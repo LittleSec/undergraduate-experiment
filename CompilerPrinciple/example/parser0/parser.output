@@ -1,0 +1,247 @@
+Terminals unused in grammar
+
+   FLOAT
+   REAL
+   COMMA
+   LPAREN
+   RPAREN
+   IF
+   WHILE
+   DO
+   THEN
+   ELSE
+   EQ
+   NEQ
+   LT
+   LE
+   GT
+   GE
+   PLUS
+   MINUS
+   TIMES
+   DIVIDE
+
+
+语法
+
+    0 $accept: program $end
+
+    1 program: PROGRAM ID SEMICOLON vardec BEGINN stmts END PERIOD
+
+    2 vardec: VAR declist
+
+    3 declist: ID COLON INTEGER SEMICOLON
+
+    4 stmts: ID ASSIGN exp
+
+    5 exp: INT
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+ID (258) 1 3 4
+INT (259) 5
+FLOAT (260)
+INTEGER (261) 3
+REAL (262)
+COMMA (263)
+COLON (264) 3
+SEMICOLON (265) 1 3
+LPAREN (266)
+RPAREN (267)
+PERIOD (268) 1
+PROGRAM (269) 1
+BEGINN (270) 1
+END (271) 1
+VAR (272) 2
+IF (273)
+WHILE (274)
+DO (275)
+THEN (276)
+ELSE (277)
+ASSIGN (278) 4
+EQ (279)
+NEQ (280)
+LT (281)
+LE (282)
+GT (283)
+GE (284)
+PLUS (285)
+MINUS (286)
+TIMES (287)
+DIVIDE (288)
+
+
+Nonterminals, with rules where they appear
+
+$accept (34)
+    on left: 0
+program (35)
+    on left: 1, on right: 0
+vardec (36)
+    on left: 2, on right: 1
+declist (37)
+    on left: 3, on right: 2
+stmts (38)
+    on left: 4, on right: 1
+exp (39)
+    on left: 5, on right: 4
+
+
+State 0
+
+    0 $accept: . program $end
+
+    PROGRAM  shift, and go to state 1
+
+    program  转到状态 2
+
+
+State 1
+
+    1 program: PROGRAM . ID SEMICOLON vardec BEGINN stmts END PERIOD
+
+    ID  shift, and go to state 3
+
+
+State 2
+
+    0 $accept: program . $end
+
+    $end  shift, and go to state 4
+
+
+State 3
+
+    1 program: PROGRAM ID . SEMICOLON vardec BEGINN stmts END PERIOD
+
+    SEMICOLON  shift, and go to state 5
+
+
+State 4
+
+    0 $accept: program $end .
+
+    $default  接受
+
+
+State 5
+
+    1 program: PROGRAM ID SEMICOLON . vardec BEGINN stmts END PERIOD
+
+    VAR  shift, and go to state 6
+
+    vardec  转到状态 7
+
+
+State 6
+
+    2 vardec: VAR . declist
+
+    ID  shift, and go to state 8
+
+    declist  转到状态 9
+
+
+State 7
+
+    1 program: PROGRAM ID SEMICOLON vardec . BEGINN stmts END PERIOD
+
+    BEGINN  shift, and go to state 10
+
+
+State 8
+
+    3 declist: ID . COLON INTEGER SEMICOLON
+
+    COLON  shift, and go to state 11
+
+
+State 9
+
+    2 vardec: VAR declist .
+
+    $default  reduce using rule 2 (vardec)
+
+
+State 10
+
+    1 program: PROGRAM ID SEMICOLON vardec BEGINN . stmts END PERIOD
+
+    ID  shift, and go to state 12
+
+    stmts  转到状态 13
+
+
+State 11
+
+    3 declist: ID COLON . INTEGER SEMICOLON
+
+    INTEGER  shift, and go to state 14
+
+
+State 12
+
+    4 stmts: ID . ASSIGN exp
+
+    ASSIGN  shift, and go to state 15
+
+
+State 13
+
+    1 program: PROGRAM ID SEMICOLON vardec BEGINN stmts . END PERIOD
+
+    END  shift, and go to state 16
+
+
+State 14
+
+    3 declist: ID COLON INTEGER . SEMICOLON
+
+    SEMICOLON  shift, and go to state 17
+
+
+State 15
+
+    4 stmts: ID ASSIGN . exp
+
+    INT  shift, and go to state 18
+
+    exp  转到状态 19
+
+
+State 16
+
+    1 program: PROGRAM ID SEMICOLON vardec BEGINN stmts END . PERIOD
+
+    PERIOD  shift, and go to state 20
+
+
+State 17
+
+    3 declist: ID COLON INTEGER SEMICOLON .
+
+    $default  reduce using rule 3 (declist)
+
+
+State 18
+
+    5 exp: INT .
+
+    $default  reduce using rule 5 (exp)
+
+
+State 19
+
+    4 stmts: ID ASSIGN exp .
+
+    $default  reduce using rule 4 (stmts)
+
+
+State 20
+
+    1 program: PROGRAM ID SEMICOLON vardec BEGINN stmts END PERIOD .
+
+    $default  reduce using rule 1 (program)
