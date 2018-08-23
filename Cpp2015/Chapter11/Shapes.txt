@@ -1,0 +1,1 @@
+1.Circle   radius=3,  price:4.0 2.Rectangle  length=3, width=3, price:2.0 3.RightTriangle  leg1=3, leg2=3, price:3.5 4.Square  side=3,  price:1.5 
