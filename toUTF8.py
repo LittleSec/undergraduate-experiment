@@ -2,7 +2,7 @@
 import os, sys
 import chardet
 
-extList = ['c', 'h', 'cpp', 'p', 'l', 'asm', 'html', 'css', 'py']
+extList = ['c', 'h', 'cpp', 'p', 'l', 'y', 'output', 'asm', 'html', 'css', 'py']
 def convert(filename, out_enc="UTF8" ):
     try:
         content = open(filename, 'rb').read()

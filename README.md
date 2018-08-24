@@ -36,7 +36,7 @@
 ## About```toUTF8.py```
 1. 由于当时实验的时候使用win下的codeblocks，默认gbk编码，为了现在连微软自家出的vscode也默认使用utf8读写了，因此这个py脚本用于转换文本文件的编码。
 2. 脚本会跳过utf-8和ascii两种编码的文本文件，对其他文本文件进行转换。
-3. 修改extList能指定需要转换的文本文件类型，默认有'c', 'h', 'cpp', 'p', 'l', 'asm', 'html', 'css', 'py'(**不区分大小写**)
+3. 修改extList能指定需要转换的文本文件类型，默认有'c', 'h', 'cpp', 'p', 'l', 'y', 'output', 'asm', 'html', 'css', 'py'(**不区分大小写**)
 4. 使用：```python toUTF8.py [dir]```，必须指定（有且仅有一个）目录，程序会递归遍历整个目录找出符合的文件进行转换。
 5. 需要安装chardet库，```pip install chardet```
 6. 已知bug：
